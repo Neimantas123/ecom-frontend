@@ -24,6 +24,7 @@ import OrderHistoryScreen from './Screens/OrderHistoryScreen';
 import SearchBox from './components/SearchBox';
 import DashboardScreen from './Screens/DashboardScreen';
 import ProductListScreen from './Screens/ProductListScreen';
+import ProductEditScreen from './Screens/ProductEditScreen';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -160,6 +161,10 @@ function App() {
               <Route
                 path="/admin/productlist"
                 element={<ProductListScreen />}
+              />
+              <Route
+                path="/admin/product/:id"
+                element={<ProductEditScreen />}
               />
               <Route path="/admin/orders" element={<OrderHistoryScreen />} />
               <Route path="/" element={<HomeScreen />} />

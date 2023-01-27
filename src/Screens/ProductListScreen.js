@@ -91,9 +91,54 @@ export default function ProductListScreen() {
     if (successDelete) {
       dispatch({ type: 'DELETE_RESET' });
     } else {
-      fetchData();
+      if (successDelete) {
+        dispatch({ type: 'DELETE_RESET' });
+      } else {
+        fetchData();
+      }
     }
   }, [page, userInfo, successDelete]);
+
+  const createHandler = async () => {
+    if (window.confirm('Are you sure to create?')) {
+      try {
+        dispatch({ type: 'CREATE_REQUEST' });
+        const { data } = await axios.post(
+          '/api/products',
+          {},
+          {
+            headers: { Authorization: `Bearer ${userInfo.token}` },
+          }
+        );
+        toast.success('product created successfully');
+        dispatch({ type: 'CREATE_SUCCESS' });
+        navigate(`/admin/product/${data.product._id}`);
+      } catch (err) {
+        toast.error(getError(error));
+        dispatch({
+          type: 'CREATE_FAIL',
+        });
+      }
+    }
+  };
+
+  const deleteHandler = async (product) => {
+    if (window.confirm('Are you sure? ')) {
+      try {
+        dispatch({ type: 'DELETE_REQUEST' });
+        await axios.delete(`/api/products/${product._id}`, {
+          headers: { Authorization: `Bearer ${userInfo.token}` },
+        });
+        toast.success('Product deleted');
+        dispatch({ type: 'DELETE_SUCCESS' });
+      } catch (err) {
+        toast.error(getError(error));
+        dispatch({
+          type: 'DELETE_FAIL',
+        });
+      }
+    }
+  };
 
   return (
     <div>
@@ -103,7 +148,9 @@ export default function ProductListScreen() {
         </Col>
         <Col className="col text-end">
           <div>
-            <Button type="button">Create Product</Button>
+            <Button type="button" onClick={createHandler}>
+              Create Product
+            </Button>
           </div>
         </Col>
       </Row>
@@ -143,6 +190,15 @@ export default function ProductListScreen() {
                       onClick={() => navigate(`/admin/product/${product._id}`)}
                     >
                       Edit
+                    </Button>
+                  </td>
+                  <td>
+                    <Button
+                      type="button"
+                      variant="light"
+                      onClick={() => deleteHandler(product)}
+                    >
+                      Delete
                     </Button>
                   </td>
                 </tr>
