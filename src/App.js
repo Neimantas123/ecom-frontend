@@ -22,6 +22,8 @@ import ProfileScreen from './Screens/ProfileScreen';
 import ProtectedRoute from './components/ProtectedRoute';
 import OrderHistoryScreen from './Screens/OrderHistoryScreen';
 import SearchBox from './components/SearchBox';
+import DashboardScreen from './Screens/DashboardScreen';
+import ProductListScreen from './Screens/ProductListScreen';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -98,16 +100,16 @@ function App() {
                 )}
                 {userInfo && userInfo.isAdmin && (
                   <NavDropdown title="Admin" id="admin-nav-dropdown">
-                    <LinkContainer to="/dashboard">
+                    <LinkContainer to="/admin/dashboard">
                       <NavDropdown.Item>Dashboard</NavDropdown.Item>
                     </LinkContainer>
-                    <LinkContainer to="/productlist">
+                    <LinkContainer to="/admin/productlist">
                       <NavDropdown.Item>Products</NavDropdown.Item>
                     </LinkContainer>
-                    <LinkContainer to="/orders">
+                    <LinkContainer to="/admin/orders">
                       <NavDropdown.Item>Orders</NavDropdown.Item>
                     </LinkContainer>
-                    <LinkContainer to="/userlist">
+                    <LinkContainer to="/admin/userlist">
                       <NavDropdown.Item>Users</NavDropdown.Item>
                     </LinkContainer>
                   </NavDropdown>
@@ -147,13 +149,19 @@ function App() {
               <Route path="/search" element={<SearchScreen />} />
               <Route path="/signin" element={<SigninScreen />} />
               <Route path="/signup" element={<RegisterScreen />} />
-
               <Route path="/profile" element={<ProfileScreen />} />
               <Route path="/orderHistory" element={<OrderHistoryScreen />} />
               <Route path="/shipping" element={<PageShipping />} />
               <Route path="/payment" element={<PaymentMethodScreen />}></Route>
               <Route path="/placeorder" element={<OrderScrenn />}></Route>
               <Route path="/order/:id" element={<OrderScreen />}></Route>
+
+              <Route path="/admin/dashboard" element={<DashboardScreen />} />
+              <Route
+                path="/admin/productlist"
+                element={<ProductListScreen />}
+              />
+              <Route path="/admin/orders" element={<OrderHistoryScreen />} />
               <Route path="/" element={<HomeScreen />} />
             </Routes>
           </Container>
