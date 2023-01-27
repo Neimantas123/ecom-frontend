@@ -18,6 +18,10 @@ import OrderScreen from './Screens/OrderScreen';
 import SearchScreen from './Screens/SearchScreen';
 import axios from 'axios';
 import { getError } from './utils';
+import ProfileScreen from './Screens/ProfileScreen';
+import ProtectedRoute from './components/ProtectedRoute';
+import OrderHistoryScreen from './Screens/OrderHistoryScreen';
+import SearchBox from './components/SearchBox';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -60,7 +64,8 @@ function App() {
               <LinkContainer to="/">
                 <Navbar.Brand>Marketplace</Navbar.Brand>
               </LinkContainer>
-              <Nav className="me-auto">
+              <SearchBox />
+              <Nav className="me-auto w-100  justify-content-end">
                 <Link to="/cart" className="nav-link">
                   cart
                   {cart.cartItems.length > 0 && (
@@ -90,6 +95,22 @@ function App() {
                   <Link className="nav-link" to="/signin">
                     Sign in
                   </Link>
+                )}
+                {userInfo && userInfo.isAdmin && (
+                  <NavDropdown title="Admin" id="admin-nav-dropdown">
+                    <LinkContainer to="/dashboard">
+                      <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/productlist">
+                      <NavDropdown.Item>Products</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/orders">
+                      <NavDropdown.Item>Orders</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/userlist">
+                      <NavDropdown.Item>Users</NavDropdown.Item>
+                    </LinkContainer>
+                  </NavDropdown>
                 )}
               </Nav>
             </Container>
@@ -126,6 +147,9 @@ function App() {
               <Route path="/search" element={<SearchScreen />} />
               <Route path="/signin" element={<SigninScreen />} />
               <Route path="/signup" element={<RegisterScreen />} />
+
+              <Route path="/profile" element={<ProfileScreen />} />
+              <Route path="/orderHistory" element={<OrderHistoryScreen />} />
               <Route path="/shipping" element={<PageShipping />} />
               <Route path="/payment" element={<PaymentMethodScreen />}></Route>
               <Route path="/placeorder" element={<OrderScrenn />}></Route>
