@@ -19,12 +19,14 @@ import SearchScreen from './Screens/SearchScreen';
 import axios from 'axios';
 import { getError } from './utils';
 import ProfileScreen from './Screens/ProfileScreen';
-import ProtectedRoute from './components/ProtectedRoute';
 import OrderHistoryScreen from './Screens/OrderHistoryScreen';
 import SearchBox from './components/SearchBox';
 import DashboardScreen from './Screens/DashboardScreen';
 import ProductListScreen from './Screens/ProductListScreen';
 import ProductEditScreen from './Screens/ProductEditScreen';
+import UserListScreen from './Screens/UserListScreen';
+import UserEditScreen from './Screens/UserEditScreen';
+import OrderListScreen from './Screens/OrderListSreen';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -99,6 +101,16 @@ function App() {
                     Sign in
                   </Link>
                 )}
+                {userInfo && userInfo.isSeller && (
+                  <NavDropdown title="Seller" id="admin-nav-dropdown">
+                    <LinkContainer to="/productlist/seller">
+                      <NavDropdown.Item>Products</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/orderlist/seller">
+                      <NavDropdown.Item>Orders</NavDropdown.Item>
+                    </LinkContainer>
+                  </NavDropdown>
+                )}
                 {userInfo && userInfo.isAdmin && (
                   <NavDropdown title="Admin" id="admin-nav-dropdown">
                     <LinkContainer to="/admin/dashboard">
@@ -166,8 +178,16 @@ function App() {
                 path="/admin/product/:id"
                 element={<ProductEditScreen />}
               />
+              <Route path="/admin/user/:id" element={<UserEditScreen />} />
               <Route path="/admin/orders" element={<OrderHistoryScreen />} />
+              <Route path="/admin/userlist" element={<UserListScreen />} />
               <Route path="/" element={<HomeScreen />} />
+
+              <Route
+                path="/productlist/seller"
+                component={<ProductListScreen />}
+              />
+              <Route path="/orderlist/seller" component={<OrderListScreen />} />
             </Routes>
           </Container>
         </main>

@@ -99,6 +99,7 @@ export default function ProfileScreen() {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </Form.Group>
+
         <div className="mb-3">
           <Button type="submit">Update</Button>
         </div>
